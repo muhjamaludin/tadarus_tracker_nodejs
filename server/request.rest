@@ -1,0 +1,29 @@
+### Get List Tadarus
+GET http://localhost:5000/api/tadarus
+
+### Get Tadarus By Id
+GET http://localhost:5000/api/tadarus/2
+
+### Add Tadarus Record
+PUT http://localhost:5000/api/tadarus
+Content-Type: application/json
+
+{
+  "juz": "30",
+  "surah": "Al Anbiya",
+  "ayat": "12",
+  "date": "2023-05-02",
+  "time": "09:07"
+}
+
+### Add Tadarus Record
+POST http://localhost:5000/api/tadarus/2
+Content-Type: application/json
+
+{
+  "juz": "30",
+  "surah": "Al Anbiya",
+  "ayat": "12",
+  "date": "2023-05-02",
+  "time": "09:07"
+}
