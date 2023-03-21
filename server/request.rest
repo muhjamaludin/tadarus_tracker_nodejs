@@ -27,3 +27,6 @@ Content-Type: application/json
   "date": "2023-05-02",
   "time": "09:07"
 }
+
+### Chart of target's statistic
+GET http://localhost:5000/api/tadarus/stats/chart

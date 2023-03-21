@@ -1,5 +1,6 @@
 import express from "express";
 import {
+  chartStatistics,
   createTadarus,
   getTadarusAll,
   getTadarusById,
@@ -8,9 +9,13 @@ import {
 import { tadarusInput } from "../middlewares/Validation.js";
 const router = express.Router();
 
-router.get("/tadarus/:id", getTadarusById)
+// main crud
+router.get("/tadarus/:id", getTadarusById);
 router.get("/tadarus", getTadarusAll);
 router.put("/tadarus", tadarusInput, createTadarus);
-router.post("/tadarus/:id", tadarusInput, updateTadarus)
+router.post("/tadarus/:id", tadarusInput, updateTadarus);
+
+// statistics
+router.get("/tadarus/stats/chart", chartStatistics);
 
 export default router;
