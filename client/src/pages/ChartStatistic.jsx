@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from "react";
+import Chart from "chart.js/auto";
 import { Line } from "react-chartjs-2";
 import axios from "axios";
+import Navbar from "../components/Navbar";
 
 const backendApi = import.meta.env.VITE_APP_API_URL;
 
@@ -51,12 +53,15 @@ const ChartStatistic = () => {
   };
 
   return (
-    <div className="columns mt-5 is-centered">
-      <div className="column is-half">
-        <h2 style={{ textAlign: "center" }}>Data Statistics Tadarus</h2>
-        <Line data={chartData} />
+    <>
+      <div className="columns is-centered">
+        <div className="column is-half">
+          <Navbar />
+          <h2 style={{ textAlign: "center" }}>Data Statistics Tadarus</h2>
+          <Line data={chartData} />
+        </div>
       </div>
-    </div>
+    </>
   );
 };
 
