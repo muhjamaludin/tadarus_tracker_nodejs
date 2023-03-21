@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
-import { useNavigate, useParams } from "react-router-dom";
+import { useNavigate, useParams, Link } from "react-router-dom";
 
 const backendApi = import.meta.env.VITE_APP_API_URL;
 
@@ -140,10 +140,13 @@ const AddEditTadarus = () => {
           <div className="field">
             <button
               type="submit"
-              className={`button ${id ? "is-primary" : "is-success"}`}
+              className={`button ${id ? "is-info" : "is-success"}`}
             >
               {id ? "Edit" : "Save"}
             </button>
+            <Link className="button ml-5 is-light" to={"/"}>
+              Cancel
+            </Link>
           </div>
         </form>
       </div>
