@@ -30,3 +30,9 @@ Content-Type: application/json
 
 ### Chart of target's statistic
 GET http://localhost:5000/api/tadarus/stats/chart
+
+### List Juz
+GET http://localhost:5000/api/juz
+
+### Get Juz Detail
+GET http://localhost:5000/api/juz/11/surah

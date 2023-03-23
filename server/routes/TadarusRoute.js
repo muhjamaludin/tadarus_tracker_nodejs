@@ -2,6 +2,8 @@ import express from "express";
 import {
   chartStatistics,
   createTadarus,
+  getAllJuzQuran,
+  getSurahByJuzQuran,
   getTadarusAll,
   getTadarusById,
   updateTadarus,
@@ -17,5 +19,9 @@ router.post("/tadarus/:id", tadarusInput, updateTadarus);
 
 // statistics
 router.get("/tadarus/stats/chart", chartStatistics);
+
+// filter juz and surah
+router.get("/juz", getAllJuzQuran);
+router.get("/juz/:id/surah", getSurahByJuzQuran);
 
 export default router;

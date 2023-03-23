@@ -12,9 +12,9 @@ app.use(express.json());
 
 // handling error syntax input
 app.use((err, req, res, next) => {
-  if (err instanceof SyntaxError && err.status === 400 && 'body' in err) {
-      console.error(err.type);
-      return res.status(400).send({ status: 404, message: err.message }); // Bad request
+  if (err instanceof SyntaxError && err.status === 400 && "body" in err) {
+    console.error(err.type);
+    return res.status(400).send({ status: 404, message: err.message }); // Bad request
   }
   next();
 });

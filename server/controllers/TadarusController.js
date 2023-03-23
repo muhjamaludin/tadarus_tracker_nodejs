@@ -1,5 +1,6 @@
 import { Sequelize } from "sequelize";
 import Tadarus from "../models/TadarusModel.js";
+import { getAllJuz, getSurahByJuz } from "../middlewares/Filter.js";
 
 export const getTadarusAll = async (req, res) => {
   try {
@@ -116,4 +117,21 @@ export const chartStatistics = async (req, res) => {
   };
 
   res.status(200).send(result);
+};
+
+export const getAllJuzQuran = (req, res) => {
+  try {
+    res.status(200).send(getAllJuz());
+  } catch (error) {
+    console.error(error);
+  }
+};
+
+export const getSurahByJuzQuran = (req, res) => {
+  try {
+    const idJuz = req.params.id;
+    res.status(200).send(getSurahByJuz(idJuz));
+  } catch (error) {
+    console.error(error);
+  }
 };
