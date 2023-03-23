@@ -30,6 +30,8 @@ const AddEditTadarus = () => {
       setAyat(response.data.ayat);
       setDateTadarus(response.data.date);
       setTimeTadarus(response.data.time);
+
+      id ? getListSurahByJuz(response.data.juz, response.data.surah) : "";
     } catch (error) {
       alert(error.message);
     }
@@ -38,16 +40,19 @@ const AddEditTadarus = () => {
   const getListJuz = async () => {
     try {
       const response = await axios.get(`${backendApi}/api/juz`);
+      response.data.unshift("-");
       setListJuz(response.data);
     } catch (error) {
       alert(error.message);
     }
   };
 
-  const getListSurahByJuz = async (juz) => {
+  const getListSurahByJuz = async (juz, surahName) => {
     try {
       const response = await axios.get(`${backendApi}/api/juz/${juz}/surah`);
+      response.data.unshift({ surah: "-", number: 0 });
       setListSurah(response.data);
+      id ? setChangedAyat(response.data, surahName) : "";
     } catch (error) {
       alert(error.message);
     }
@@ -94,6 +99,7 @@ const AddEditTadarus = () => {
 
     const idJuz = e.target.value;
     setJuz(idJuz);
+    setSurah("");
     getListSurahByJuz(idJuz);
   }
 
@@ -102,12 +108,17 @@ const AddEditTadarus = () => {
 
     const surahName = e.target.value;
     setSurah(surahName);
-    const rangeAyat = listSurah.filter((s) => s.surah == surahName)[0].ayat;
+    setChangedAyat(listSurah, surahName);
+  }
+
+  function setChangedAyat(list, surahName) {
+    const rangeAyat = list.filter((s) => s.surah == surahName)[0].ayat || "1-1";
     const [start, end] = rangeAyat.split("-");
     const ayats = [];
     for (let i = Number(start); i <= end; i++) {
       ayats.push(i);
     }
+    ayats.unshift("-");
     setListAyat(ayats);
   }
 
@@ -121,7 +132,7 @@ const AddEditTadarus = () => {
             <div className="field">
               <label className="label">Juz</label>
               <div className="select">
-                <select onChange={onchangeSelectJuz}>
+                <select onChange={onchangeSelectJuz} value={juz}>
                   {listJuz &&
                     listJuz.map((j) => {
                       return (
@@ -136,7 +147,7 @@ const AddEditTadarus = () => {
             <div className="field">
               <label className="label">Surah</label>
               <div className="select">
-                <select onChange={onChangeSelectSurah}>
+                <select onChange={onChangeSelectSurah} value={surah}>
                   {listSurah &&
                     listSurah.map((s) => {
                       return (
@@ -151,7 +162,7 @@ const AddEditTadarus = () => {
             <div className="field">
               <label className="label">Ayat</label>
               <div className="select">
-                <select onChange={(e) => setAyat(e.target.value)}>
+                <select onChange={(e) => setAyat(e.target.value)} value={ayat}>
                   {listAyat &&
                     listAyat.map((a) => {
                       return (
