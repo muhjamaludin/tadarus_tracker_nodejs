@@ -32,10 +32,10 @@ const TadarusList = () => {
             <thead>
               <tr>
                 <th>No</th>
+                <th>Date</th>
                 <th>Juz</th>
                 <th>Surah</th>
                 <th>Ayat</th>
-                <th>Date</th>
                 <th>Time</th>
                 <th>Action</th>
               </tr>
@@ -45,10 +45,10 @@ const TadarusList = () => {
                 tadaruses.map((tadarus, index) => (
                   <tr key={tadarus.id}>
                     <td>{index + 1}</td>
+                    <td>{tadarus.date}</td>
                     <td>{tadarus.juz}</td>
                     <td>{tadarus.surah}</td>
                     <td>{tadarus.ayat}</td>
-                    <td>{tadarus.date}</td>
                     <td>{tadarus.time}</td>
                     <td>
                       <Link
