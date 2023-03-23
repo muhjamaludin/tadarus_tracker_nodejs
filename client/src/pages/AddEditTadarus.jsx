@@ -11,11 +11,15 @@ const AddEditTadarus = () => {
   const [ayat, setAyat] = useState("");
   const [dateTadarus, setDateTadarus] = useState("");
   const [timeTadarus, setTimeTadarus] = useState("");
+  const [listJuz, setListJuz] = useState([]);
+  const [listSurah, setListSurah] = useState([]);
+  const [listAyat, setListAyat] = useState([]);
   const { id } = useParams("");
   const navigate = useNavigate();
 
   useEffect(() => {
     id ? getTadarusById() : "";
+    getListJuz();
   }, []);
 
   const getTadarusById = async () => {
@@ -26,6 +30,24 @@ const AddEditTadarus = () => {
       setAyat(response.data.ayat);
       setDateTadarus(response.data.date);
       setTimeTadarus(response.data.time);
+    } catch (error) {
+      alert(error.message);
+    }
+  };
+
+  const getListJuz = async () => {
+    try {
+      const response = await axios.get(`${backendApi}/api/juz`);
+      setListJuz(response.data);
+    } catch (error) {
+      alert(error.message);
+    }
+  };
+
+  const getListSurahByJuz = async (juz) => {
+    try {
+      const response = await axios.get(`${backendApi}/api/juz/${juz}/surah`);
+      setListSurah(response.data);
     } catch (error) {
       alert(error.message);
     }
@@ -67,6 +89,28 @@ const AddEditTadarus = () => {
     }
   };
 
+  function onchangeSelectJuz(e) {
+    e.preventDefault();
+
+    const idJuz = e.target.value;
+    setJuz(idJuz);
+    getListSurahByJuz(idJuz);
+  }
+
+  function onChangeSelectSurah(e) {
+    e.preventDefault();
+
+    const surahName = e.target.value;
+    setSurah(surahName);
+    const rangeAyat = listSurah.filter((s) => s.surah == surahName)[0].ayat;
+    const [start, end] = rangeAyat.split("-");
+    const ayats = [];
+    for (let i = Number(start); i <= end; i++) {
+      ayats.push(i);
+    }
+    setListAyat(ayats);
+  }
+
   return (
     <>
       <div className="columns is-centered">
@@ -76,41 +120,47 @@ const AddEditTadarus = () => {
           <form onSubmit={id ? updateTadarus : saveTadarusRecord}>
             <div className="field">
               <label className="label">Juz</label>
-              <div className="control">
-                <input
-                  type="number"
-                  className="input is-primary"
-                  placeholder="1"
-                  value={juz}
-                  onChange={(e) => setJuz(e.target.value)}
-                  required
-                />
+              <div className="select">
+                <select onChange={onchangeSelectJuz}>
+                  {listJuz &&
+                    listJuz.map((j) => {
+                      return (
+                        <option value={j} key={j}>
+                          {j}
+                        </option>
+                      );
+                    })}
+                </select>
               </div>
             </div>
             <div className="field">
               <label className="label">Surah</label>
-              <div className="control">
-                <input
-                  type="text"
-                  className="input is-primary"
-                  placeholder="Al Fatihah"
-                  value={surah}
-                  onChange={(e) => setSurah(e.target.value)}
-                  required
-                />
+              <div className="select">
+                <select onChange={onChangeSelectSurah}>
+                  {listSurah &&
+                    listSurah.map((s) => {
+                      return (
+                        <option value={s.surah} key={s.number}>
+                          {s.surah}
+                        </option>
+                      );
+                    })}
+                </select>
               </div>
             </div>
             <div className="field">
               <label className="label">Ayat</label>
-              <div className="control">
-                <input
-                  type="number"
-                  className="input is-primary"
-                  placeholder="1"
-                  value={ayat}
-                  onChange={(e) => setAyat(e.target.value)}
-                  required
-                />
+              <div className="select">
+                <select onChange={(e) => setAyat(e.target.value)}>
+                  {listAyat &&
+                    listAyat.map((a) => {
+                      return (
+                        <option value={a} key={a}>
+                          {a}
+                        </option>
+                      );
+                    })}
+                </select>
               </div>
             </div>
             <div className="field">
